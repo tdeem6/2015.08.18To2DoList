@@ -5,7 +5,7 @@
     * @backStaticAttributes disabled
     */
     require_once "src/Task.php";
-    require_once "src/Category";
+    require_once "src/Category.php";
 
 
     $server = 'mysql:host=localhost;dbname=to_do_test';
@@ -18,6 +18,7 @@
         protected function tearDown()
         {
             Task::deleteAll();
+            Category::deleteAll();
         }
 
         function test_save()
@@ -51,18 +52,18 @@
             $description = "Wash the dog";
             $category_id = $test_category->getId();
             $test_task = new Task($description, $id, $category_id);
-            $test_category->save();
+            $test_task->save();
 
             $description2 = "Water the lawn";
-            $test_task = new Task($description2, $id, $category_id);
-            $test_task->save();
+            $test_task2 = new Task($description2, $id, $category_id);
+            $test_task2->save();
 
 
             //Act
             $result = Task::getAll();
 
             //Assert
-            $this->assertEquals([$test_Task, $test_Task2], $result);
+            $this->assertEquals([$test_task, $test_task2], $result);
         }
 
         function test_deleteAll()
@@ -73,7 +74,7 @@
             $test_category = new Category($name, $id);
 
             $description = "Wash the dog";
-            $category_id = $test_category-getId();
+            $category_id = $test_category->getId();
             $test_task = new Task($description, $id, $category_id);
             $test_task->save();
 
@@ -99,10 +100,11 @@
 
             $description = "Wash the dog";
             $category_id = $test_category->getId();
-            $test_Task = new Task($description, $id, $category_id);
+            $test_task = new Task($description, $id, $category_id);
+            $test_task->save();
 
             //Act
-            $result = $test_Task->getId();
+            $result = $test_task->getId();
 
             //Assert
             $this->assertEquals(true, is_numeric($result));
