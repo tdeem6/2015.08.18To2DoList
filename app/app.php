@@ -17,9 +17,9 @@
         return $app['twig']->render('index.html.twig', array('categories' => Category::getAll()));
     });
 
-    $app->get("/tasks", function() use ($app) {
-        return $app['twig']->render('tasks.html.twig', array('tasks' => Task::getAll()));
-    });
+    // $app->get("/tasks", function() use ($app) {
+    //     return $app['twig']->render('tasks.html.twig', array('tasks' => Task::getAll()));
+    // });
 
     $app->post("/categories", function() use ($app) {
         $category = new Category($_POST['name']);
@@ -35,7 +35,8 @@
     $app->post("/tasks", function() use ($app) {
         $description = $_POST['description'];
         $category_id = $_POST['category_id'];
-        $task = new Task($description, $id = null, $category_id);
+        $due_date = $_POST['due_date'];
+        $task = new Task($description, $id = null, $category_id, $due_date);
         $task->save();
         $category = Category::find($category_id);
 
